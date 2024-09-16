@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Instrument;
-use App\Models\Lesson;
+use App\Http\Controllers\Util\CartUtility;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -14,33 +13,13 @@ class CartController extends Controller
     {
         $cartItems = $request->session()->get('cart_items', []);
 
-        $cartProducts = [];
-        foreach ($cartItems as $item) {
-            if ($item['type'] === 'instrument') {
-                $product = Instrument::find($item['id']);
-                if ($product) {
-                    $stockQuantity = $product->getQuantity();
-                    $cartProducts[] = [
-                        'type' => 'Instrument',
-                        'product' => $product,
-                        'quantity' => $item['quantity'],
-                    ];
-                }
-            } elseif ($item['type'] === 'lesson') {
-                $product = Lesson::find($item['id']);
-                if ($product) {
-                    $cartProducts[] = [
-                        'type' => 'Lesson',
-                        'product' => $product,
-                    ];
-                }
-            }
-        }
+        $cartProducts = CartUtility::processCartItems($cartItems);
 
-        $viewData = [];
-        $viewData['title'] = 'Cart - Online Store';
-        $viewData['subtitle'] = 'Shopping Cart';
-        $viewData['cartProducts'] = $cartProducts;
+        $viewData = [
+            'title' => __('messages.cart'),
+            'subtitle' => __('messages.subtitle_cart'),
+            'cartProducts' => $cartProducts,
+        ];
 
         return view('cart.index')->with('viewData', $viewData);
     }
@@ -50,10 +29,7 @@ class CartController extends Controller
         if (! in_array($type, ['instrument', 'lesson'])) {
             return back()->withErrors('Invalid product type.');
         }
-
-        $cartItems = $request->session()->get('cart_items', []);
-        $cartItems[] = ['id' => $id, 'type' => $type];
-        $request->session()->put('cart_items', $cartItems);
+        CartUtility::addItemToCart($id, $type, $request);
 
         return back();
     }

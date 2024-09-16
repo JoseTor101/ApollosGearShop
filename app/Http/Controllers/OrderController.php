@@ -26,18 +26,20 @@ class OrderController extends Controller
 
     public function show(string $id): View|RedirectResponse
     {
-        $viewData = [];
         $order = Order::findOrFail($id);
-        $viewData['title'] = $order['id'].' - AGS';
-        $viewData['subtitle'] = $order['id'].' - order information';
-        $viewData['order'] = $order;
+
+        $viewData = [
+            'title' => 'Order',
+            'subtitle' => 'Order Information',
+            'order' => $order,
+        ];
 
         return view('order.show')->with('viewData', $viewData);
     }
 
     public function create(): View
     {
-        $viewData = []; //to be sent to the view
+        $viewData = [];
         $viewData['title'] = 'Create Order';
 
         return view('order.create')->with('viewData', $viewData);
@@ -70,10 +72,11 @@ class OrderController extends Controller
             return redirect()->route('home.index');
         }
 
-        $viewData = [];
-        $viewData['title'] = 'Success - AGS';
-        $viewData['subtitle'] = 'Order successfully created!';
-        $viewData['order'] = $order;
+        $viewData = [
+            'title' => 'Order - Created',
+            'subtitle' => __('Order successfully created!'),
+            'order' => $order,
+        ];
 
         return view('order.success')->with('viewData', $viewData);
     }

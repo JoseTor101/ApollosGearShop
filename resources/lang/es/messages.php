@@ -19,4 +19,10 @@ return [
     'add_review' => 'Agregar Reseña',
     'save' => 'Guardar',
     'add_to_cart' => 'Añadir al carrito',
+    'cart' => 'Carrito',
+    'subtitle_cart' => 'Productos seleccionados',
+    'lessons' => 'Lecciones',
+    'list_lessons' => 'Listado de lecciones',
+    'Success_lessons' => '¡Lección creada satisfactoriamante!',
+    'information_lessons' => 'Información sobre la lección:',
 ];

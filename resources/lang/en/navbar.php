@@ -13,7 +13,7 @@ return [
     'stock_entries' => 'Latest Stock Entries',
     'stock_details' => 'Details of Stock Entry',
     'create_review' => 'Create Review',
-    'list_lessons' => 'List Lessons',
+    'list_lessons' => 'Lessons List',
     'list_orders' => 'List Orders',
     'cart' => 'Cart',
 ];

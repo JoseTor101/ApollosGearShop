@@ -19,4 +19,10 @@ return [
     'add_review' => 'Add Review',
     'save' => 'Save',
     'add_to_cart' => 'Add to cart',
+    'cart' => 'Cart',
+    'subtitle_cart' => 'Selected products:',
+    'lessons' => 'Lessons',
+    'list_lessons' => 'Lessons list',
+    'Success_lessons' => 'Lesson Created Succesfully!',
+    'information_lessons' => 'Lesson Information:',
 ];

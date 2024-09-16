@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Util\CartUtility;
 use App\Models\Lesson;
 use App\Services\ImageService;
 use Illuminate\Http\RedirectResponse;
@@ -22,8 +23,8 @@ class LessonController extends Controller
     public function index(Request $request): View
     {
         $viewData = [
-            'title' => __('messages.list_lessons'),
-            'subtitle' => __('navbar.list_lessons'),
+            'title' => __('messages.lessons'),
+            'subtitle' => __('messages.list_lessons'),
             'message' => Session::get('message'),
             'Lessons' => Lesson::all(),
         ];
@@ -33,28 +34,29 @@ class LessonController extends Controller
 
     public function show(string $id, Request $request): View|RedirectResponse
     {
-        $viewData = [];
         $lesson = Lesson::findOrFail($id);
 
         if ($request->isMethod('post') && $request->has('add_to_cart')) {
-            $cartItems = $request->session()->get('cart_items', []);
-            $cartItems[] = ['id' => $id, 'type' => 'lesson'];
-            $request->session()->put('cart_items', $cartItems);
+
+            CartUtility::addItemToCart($id, 'lesson', $request, 0);
 
             return redirect()->route('cart.index')->with('message', 'Lesson added to cart!');
         }
 
-        $viewData['title'] = $lesson['name'].' - AGS';
-        $viewData['subtitle'] = $lesson['name'].' - lesson information';
-        $viewData['lesson'] = $lesson;
+        $viewData = [
+            'title' => __('messages.Lessons'),
+            'subtitle' => __('messages.information_lessons'),
+            'lesson' => $lesson,
+        ];
 
         return view('lesson.show')->with('viewData', $viewData);
     }
 
     public function create(): View
     {
-        $viewData = [];
-        $viewData['title'] = 'Create lesson';
+        $viewData = [
+            'title' => __('messages.Lessons'),
+        ];
 
         return view('lesson.create')->with('viewData', $viewData);
     }
@@ -68,7 +70,7 @@ class LessonController extends Controller
 
             $lesson = Lesson::create($validatedData);
 
-            return redirect()->route('lesson.success', [
+            $viewData = [
                 'id' => $lesson->id,
                 'name' => $lesson->name,
                 'description' => $lesson->description,
@@ -78,7 +80,10 @@ class LessonController extends Controller
                 'location' => $lesson->location,
                 'price' => $lesson->price,
                 'teacher' => $lesson->teacher,
-            ]);
+            ];
+
+            return redirect()->route('lesson.success', $viewData);
+
         } catch (ValidationException $e) {
             return redirect()->back()->withErrors($e->errors())->withInput();
         }
@@ -88,9 +93,7 @@ class LessonController extends Controller
     {
         $lesson = Lesson::findOrFail($id);
 
-        $cartItems = $request->session()->get('cart_items', []);
-        $cartItems[] = ['id' => $id, 'type' => 'lesson'];
-        $request->session()->put('cart_items', $cartItems);
+        CartUtility::addItemToCart($id, 'lesson', $request, 0);
 
         return redirect()->route('cart.index')->with('message', 'Lesson added to cart!');
     }
@@ -106,10 +109,11 @@ class LessonController extends Controller
             return redirect()->route('home.index');
         }
 
-        $viewData = [];
-        $viewData['title'] = 'Success - AGS';
-        $viewData['subtitle'] = 'Lesson successfully created!';
-        $viewData['lesson'] = $lesson;
+        $viewData = [
+            'title' => __('messages.Lessons'),
+            'subtitle' => __('messages.Success_lessons'),
+            'lesson' => $lesson,
+        ];
 
         return view('lesson.success')->with('viewData', $viewData);
     }

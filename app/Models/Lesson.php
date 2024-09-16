@@ -11,6 +11,27 @@ class Lesson extends Model
 {
     use HasFactory;
 
+    /**
+     * ORDER ATTRIBUTES
+
+     * $this->attributes['id'] - int - contains the Lesson primary key (id)
+
+     * $this->attributes['name'] - string - contains the Lesson name
+
+     * $this->attributes['description'] - satring - contains the lesson description
+
+     * $this->attributes['difficulty'] - string - contains the difficulty of the lesson
+
+     * $this->attributes['schedule'] - string - contains the lesson schedule
+
+     * $this->attributes['totalHours'] - int - contains the total hours of the lesson
+
+     * $this->attributes['location'] - string - contains the lesson location
+
+     * $this->attributes['price'] - int - contains the lesson price
+
+     * $this->attributes['string'] - int - contains the teacher of the lesson
+     */
     protected $table = 'lessons';
 
     protected $fillable = [
@@ -18,7 +39,6 @@ class Lesson extends Model
         'location', 'price', 'teacher',
     ];
 
-    // Validaciones movidas al modelo
     public function validate(array $data): array
     {
         $validator = Validator::make($data, [

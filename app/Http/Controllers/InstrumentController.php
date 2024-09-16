@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Util\CartUtility;
 use App\Models\Instrument;
 use App\Services\ImageService;
 use Illuminate\Http\RedirectResponse;
@@ -47,20 +48,11 @@ class InstrumentController extends Controller
         return view('instrument.index')->with('viewData', $viewData);
     }
 
-    public function show(string $id, Request $request): View|RedirectResponse
+    public function show(string $id): View|RedirectResponse
     {
         $viewData = [];
-        $instrument = Instrument::findOrFail($id);
+        $instrument = Instrument::findOrfail($id);
         $instrument = Instrument::with('reviews.user')->findOrFail($id);
-
-        if ($request->isMethod('post') && $request->has('add_to_cart')) {
-            $cartItems = $request->session()->get('cart_items', []);
-            $cartItems[] = ['id' => $id, 'type' => 'instrument', 'quantity' => 'quantity'];
-            $request->session()->put('cart_items', $cartItems);
-
-            return redirect()->route('cart.index')->with('message', 'Instrument added to cart!');
-        }
-
         $viewData = [
             'title' => $instrument['name'].' - AGS',
             'subtitle' => Str::limit($instrument['name'].' - instrument information', 50),
@@ -82,9 +74,7 @@ class InstrumentController extends Controller
             return redirect()->back()->withErrors(['quantity' => 'The requested quantity exceeds the available stock.']);
         }
 
-        $cartItems = $request->session()->get('cart_items', []);
-        $cartItems[] = ['id' => $id, 'type' => 'instrument', 'quantity' => $quantity];
-        $request->session()->put('cart_items', $cartItems);
+        CartUtility::addItemToCart($id, 'instrument', $request, $quantity);
 
         return redirect()->route('cart.index')->with('message', 'Instrument added to cart!');
     }

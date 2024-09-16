@@ -6,7 +6,7 @@
 @section('content')
 <div class="card mb-3">
     <div class="row g-0">
-        <div class="col-md-4">
+    <div class="col-md-4">
             <img src="{{ $viewData['instrument']->getImage() }}" class="card-img-top img-card" alt="{{ __('attributes.instrument_image') }}">
         </div>
         <div class="col-md-8">
