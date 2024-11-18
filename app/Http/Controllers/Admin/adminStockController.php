@@ -22,7 +22,7 @@ class AdminStockController extends Controller
         $this->imageService = $imageService;
     }
 
-    public function stock_index(): View
+    public function index(): View
     {
         $stock = new Stock;
         $latestStocks = $stock->getLatestStocks();
@@ -36,10 +36,10 @@ class AdminStockController extends Controller
         $viewData['message'] = Session::get('message');
         Session::forget('message');
 
-        return view('admin.stock.index')->with('viewData', $viewData);
+        return view('stock.index')->with('viewData', $viewData);
     }
 
-    public function stock_show(int $id): View
+    public function show(int $id): View
     {
         $stock = Stock::with('instrument')->findOrFail($id); // Eager load
 

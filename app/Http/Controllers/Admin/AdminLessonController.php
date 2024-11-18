@@ -21,7 +21,7 @@ class AdminLessonController extends Controller
         $this->imageService = $imageService;
     }
 
-    public function lesson_index(): View
+    public function index(): View
     {
         $viewData = [
             'title' => __('messages.list_lessons'),
@@ -32,7 +32,7 @@ class AdminLessonController extends Controller
         return view('admin.lesson.index')->with('viewData', $viewData);
     }
 
-    public function lesson_create(): View
+    public function create(): View
     {
         $viewData = [
             'title' => __('navbar.create_lesson'),
@@ -41,7 +41,7 @@ class AdminLessonController extends Controller
         return view('admin.lesson.create')->with('viewData', $viewData);
     }
 
-    public function lesson_save(Request $request): RedirectResponse
+    public function save(Request $request): RedirectResponse
     {
         $lesson = new Lesson;
         $validatedData = $lesson->validate($request->all());
@@ -52,7 +52,7 @@ class AdminLessonController extends Controller
         return redirect()->route('admin.index')->with('message', $viewData['message']);
     }
 
-    public function lesson_show(string $id, Request $request): View|RedirectResponse
+    public function show(string $id, Request $request): View|RedirectResponse
     {
         $lesson = Lesson::findOrFail($id);
 
@@ -65,7 +65,7 @@ class AdminLessonController extends Controller
         return view('admin.lesson.show')->with('viewData', $viewData);
     }
 
-    public function lesson_delete($id): RedirectResponse
+    public function delete($id): RedirectResponse
     {
         $lesson = Lesson::findOrFail($id);
         $lesson->delete();

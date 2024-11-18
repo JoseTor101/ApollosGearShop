@@ -21,7 +21,7 @@ class AdminOrderController extends Controller
             'orders' => Order::all(),
         ];
 
-        return view('admin.index')->with('viewData', $viewData);
+        return view('admin.order.index')->with('viewData', $viewData);
     }
 
     public function checkout(Request $request): RedirectResponse

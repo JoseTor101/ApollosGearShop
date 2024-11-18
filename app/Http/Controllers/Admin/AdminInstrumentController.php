@@ -24,7 +24,7 @@ class AdminInstrumentController extends Controller
         $this->imageService = $imageService;
     }
 
-    public function instrument_index(Request $request): View
+    public function index(Request $request): View
     {
         $filters = $this->getFilters($request);
         $instruments = Instrument::filterInstruments($filters)->get();
@@ -40,7 +40,7 @@ class AdminInstrumentController extends Controller
         return view('admin.instrument.index')->with('viewData', $viewData);
     }
 
-    public function instrument_create(): View
+    public function create(): View
     {
         $viewData = [
             'title' => __('navbar.create_instrument'),
@@ -51,7 +51,7 @@ class AdminInstrumentController extends Controller
         return view('admin.instrument.create')->with('viewData', $viewData);
     }
 
-    public function instrument_save(Request $request): RedirectResponse
+    public function save(Request $request): RedirectResponse
     {
         $instrument = new Instrument;
         $imagePath = $this->imageService->store($request);
@@ -62,7 +62,7 @@ class AdminInstrumentController extends Controller
         return redirect()->route('admin.index')->with('message', $viewData['message']);
     }
 
-    public function instrument_show(string $id, Request $request): View|RedirectResponse
+    public function show(string $id, Request $request): View|RedirectResponse
     {
         $instrument = Instrument::with('reviews.user')->findOrFail($id); // Eager load
 
@@ -77,7 +77,7 @@ class AdminInstrumentController extends Controller
         return view('admin.instrument.show')->with('viewData', $viewData);
     }
 
-    public function instrument_delete(int $id): RedirectResponse
+    public function delete(int $id): RedirectResponse
     {
         try {
             $instrument = Instrument::findOrFail($id);
