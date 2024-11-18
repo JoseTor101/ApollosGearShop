@@ -9,9 +9,9 @@
     <div class="row g-0">
         <div class="col-md-4">
             {{-- 
+                <img src="{{ asset('storage/' . $viewData['instrument']->getImage()) }}" class="card-img-top img-card" alt="Instrument Image">
+                --}}
                 <img src="{{ $viewData['instrument']->getImage() }}" class="card-img-top img-card" alt="Instrument Image">
-            --}}
-            <img src="{{ asset('storage/' . $viewData['instrument']->getImage()) }}" class="card-img-top img-card" alt="Instrument Image">
         </div>
         <div class="col-md-8">
             <div class="card-body">

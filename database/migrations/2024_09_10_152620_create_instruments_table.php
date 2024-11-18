@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('lessons')) {
+        if (!Schema::hasTable('')) {
             Schema::create('instruments', function (Blueprint $table) {
                 $table->id();
                 $table->string('name');
@@ -19,8 +19,8 @@ return new class extends Migration
                 $table->string('category');
                 $table->string('brand');
                 $table->integer('price');
-                $table->float('reviewSum')->default(0); // Establece valor por defecto
-                $table->integer('numberOfReviews')->default(0); // Establece valor por defecto
+                $table->float('reviewSum')->default(0); 
+                $table->integer('numberOfReviews')->default(0);
                 $table->integer('quantity')->default(1);
                 $table->string('image');
                 $table->timestamps();

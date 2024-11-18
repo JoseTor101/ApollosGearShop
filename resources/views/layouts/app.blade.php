@@ -110,6 +110,19 @@
                     Apollo's Gear Shop Team
                 </a>
             </small>
+            <br>
+
+            
+            <div class="m-2 text-grey">
+          
+                <cite class="text-white font-weight-normal">
+                    @isset($joke)
+                        {{ $joke }}
+                    @endisset
+                </cite>
+                <b>~JokeAPI</b>
+            </div>
+
         </div>
     </div>
     <!-- footer -->

@@ -13,7 +13,7 @@ return [
     'stock_entries' => 'Últimas Entradas de Existencias',
     'stock_details' => 'Detalles de la Entrada de Existencias',
     'create_review' => 'Crear Reseña',
-    'list_lessons' => 'lecciones',
+    'list_lessons' => 'Lecciones',
     'list_orders' => 'Órdenes',
     'create_lesson' => 'Crear lección',
     'cart' => 'Carrito',

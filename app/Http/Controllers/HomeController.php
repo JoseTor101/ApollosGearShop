@@ -9,8 +9,6 @@ class HomeController extends Controller
 {
     public function index(): View
     {
-        $locale = App::getLocale();
-
         return view('home.index');
     }
 }

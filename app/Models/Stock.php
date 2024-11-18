@@ -30,7 +30,7 @@ class Stock extends Model
      * Instrument - belongsTo
      */
 
-    protected $table = 'stock';
+    protected $table = 'stocks';
 
     protected $guarded = [];
 

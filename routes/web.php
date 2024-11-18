@@ -3,8 +3,11 @@
 use App\Http\Middleware\CheckGroup;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home.index');
+
+Route::get('locale/{locale}', 'App\Http\Controllers\LocaleController@setLocale')->name('locale.set');
 
 // user routes
 // lessons routes
