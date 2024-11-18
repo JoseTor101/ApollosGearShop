@@ -17,10 +17,6 @@ Route::get('locale/{locale}', function ($locale) {
 // lessons routes
 Route::get('/lessons', 'App\Http\Controllers\LessonController@index')->name('lesson.index');
 Route::get('/lessons/{id}', 'App\Http\Controllers\LessonController@show')->name('lesson.show');
-// Route::get('/lessons/create', 'App\Http\Controllers\LessonController@create')->name('lesson.create');
-// Route::post('/lessons/save', 'App\Http\Controllers\LessonController@save')->name('lesson.save');
-// Route::get('/lessons/success', 'App\Http\Controllers\LessonController@success')->name('lesson.success');
-// Route::delete('/lessons/{id}', 'App\Http\Controllers\LessonController@delete')->name('lesson.delete');
 
 // orders routes
 Route::get('/orders', 'App\Http\Controllers\OrderController@index')->name('order.index');
@@ -32,9 +28,6 @@ Route::delete('/orders/{id}', 'App\Http\Controllers\OrderController@delete')->na
 // instrument routes
 Route::get('/instruments', 'App\Http\Controllers\InstrumentController@index')->name('instrument.index');
 Route::get('/instruments/{id}', 'App\Http\Controllers\InstrumentController@show')->name('instrument.show');
-// Route::get('/instruments/create', 'App\Http\Controllers\InstrumentController@create')->name('instrument.create');
-// Route::post('/instruments/save', 'App\Http\Controllers\InstrumentController@save')->name('instrument.save');
-// Route::delete('/instruments/{id}', 'App\Http\Controllers\InstrumentController@delete')->name('instrument.delete');
 
 // stock routes
 Route::get('/stocks', 'App\Http\Controllers\StockController@index')->name('stock.index');
@@ -78,9 +71,9 @@ Route::middleware([CheckGroup::class.':admin'])->group(function () {
     Route::post('/admin/stock/{id}/lower', 'App\Http\Controllers\Admin\AdminStockController@lowerStock')->name('admin.stock.lower');
     Route::delete('/admin/stock/{id}/delete', 'App\Http\Controllers\Admin\AdminStockController@delete')->name('admin.stock.delete');
 
+    Route::get('/admin/order', 'App\Http\Controllers\Admin\AdminOrderController@index')->name('admin.order.index');
+    Route::get('/admin/order/{id}', 'App\Http\Controllers\Admin\AdminOrderController@show')->name('admin.order.show');
+    Route::delete('/admin/order/{id}/delete', 'App\Http\Controllers\Admin\AdminOrderController@delete')->name('admin.order.delete');
 });
-
-// Route::middleware([])->group(function () {
-// });
 
 Auth::routes();

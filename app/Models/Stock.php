@@ -29,6 +29,9 @@ class Stock extends Model
      *
      * Instrument - belongsTo
      */
+
+    protected $table = 'stock';
+
     protected $guarded = [];
 
     /* ---- GETTERS & SETTERS ----*/

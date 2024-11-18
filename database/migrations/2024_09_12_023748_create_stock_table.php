@@ -8,14 +8,16 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('stocks', function (Blueprint $table) {
-            $table->id();
-            $table->integer('quantity');
-            $table->string('type')->default(0);
-            $table->text('comments')->nullable();
-            $table->foreignId('instrument_id')->constrained()->onDelete('cascade');
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('stock')) {
+            Schema::create('stock', function (Blueprint $table) {
+                $table->id();
+                $table->integer('quantity');
+                $table->string('type')->default(0);
+                $table->text('comments')->nullable();
+                $table->foreignId('instrument_id')->constrained()->onDelete('cascade');
+                $table->timestamps();
+            });
+        }
     }
 
     public function down(): void

@@ -31,4 +31,6 @@ return [
     'stock_title' => 'Stock',
     'order_title' => 'Orders',
     'admin_navigate' => 'Navigate',
+    'view_order' => 'View Order',
+    'not_logged_in' => 'You must be logged in to proceed with checkout.',
 ];

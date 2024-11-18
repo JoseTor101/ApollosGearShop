@@ -11,18 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lessons', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('description');
-            $table->string('difficulty');
-            $table->string('schedule');
-            $table->integer('totalHours');
-            $table->string('location');
-            $table->integer('price');
-            $table->string('teacher');
-            $table->timestamps();
-        });
+        // Verificar si la tabla 'lessons' no existe antes de crearla
+        if (!Schema::hasTable('lessons')) {
+            Schema::create('lessons', function (Blueprint $table) {
+                $table->id();
+                $table->string('name');
+                $table->string('description');
+                $table->string('difficulty');
+                $table->string('schedule');
+                $table->integer('totalHours');
+                $table->string('location');
+                $table->integer('price');
+                $table->string('teacher');
+                $table->timestamps();
+            });
+        }
     }
 
     /**

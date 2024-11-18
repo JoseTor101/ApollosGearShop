@@ -62,7 +62,7 @@ class AdminStockController extends Controller
         $stock->addStock($quantity, $comments);
         $viewData['message'] = 'Stock added successfully!';
 
-        return redirect()->route('admin.stock.show', ['id' => $id])->with('success', $viewData['message']);
+        return redirect()->route('admin.index', ['id' => $id])->with('success', $viewData['message']);
 
     }
 
@@ -74,7 +74,7 @@ class AdminStockController extends Controller
         $stock->lowerStock($quantity, $comments);
         $viewData['message'] = 'Stock lowered successfully!';
 
-        return redirect()->route('admin.stock.show', ['id' => $id])->with('success', $viewData['message']);
+        return redirect()->route('admin.index', ['id' => $id])->with('success', $viewData['message']);
 
     }
 }

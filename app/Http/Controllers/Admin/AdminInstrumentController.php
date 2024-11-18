@@ -59,7 +59,7 @@ class AdminInstrumentController extends Controller
 
         $viewData['message'] = __('messages.created');
 
-        return redirect()->route('admin.instrument.index')->with('message', $viewData['message']);
+        return redirect()->route('admin.index')->with('message', $viewData['message']);
     }
 
     public function instrument_show(string $id, Request $request): View|RedirectResponse
@@ -84,10 +84,10 @@ class AdminInstrumentController extends Controller
             $instrument->delete();
             $viewData['message'] = __('messages.deleted');
         } catch (\Exception $e) {
-            return redirect()->route('admin.instrument.index')->with('error', __('messages.delete_failed'));
+            return redirect()->route('admin.index')->with('error', __('messages.delete_failed'));
         }
 
-        return redirect()->route('admin.instrument.index')->with('message', $viewData['message']);
+        return redirect()->route('admin.index')->with('message', $viewData['message']);
     }
 
     // aditional

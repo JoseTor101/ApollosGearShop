@@ -10,7 +10,7 @@ use Illuminate\View\View;
 class CartController extends Controller
 {
     public function index(Request $request): View
-    {
+    {    
         $cartItems = $request->session()->get('cart_items', []);
         $cartProducts = CartUtils::getCartProducts($cartItems);
 
