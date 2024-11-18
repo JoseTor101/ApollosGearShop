@@ -20,6 +20,11 @@ class CheckGroup
             return redirect()->route('login')->with('error', 'You must be logged in to access this page.');
         }
 
+        $user = Auth::user();
+        if (Auth::user() && Auth::user()->getIsAdmin() == '0') {
+            return $next($request);
+        }
+
         if (Auth::user() && Auth::user()->getIsAdmin() == '1') {
             return $next($request);
         }

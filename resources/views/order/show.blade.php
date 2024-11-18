@@ -58,11 +58,6 @@
                 <div class="h3 secondary">
                     Total: <p class="text-success"> $ {{ $viewData['order']->getCustomTotalPrice() }}</p>
                 </div>
-                <!-- <form action="{{ route('order.delete', ['id' => $viewData['order']->id]) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger">{{ __('order.delete_order')}}</button>
-                </form> -->
             </div>
         </div>
     </div>

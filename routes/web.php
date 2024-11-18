@@ -11,13 +11,6 @@ Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home.index')
 Route::get('/lessons', 'App\Http\Controllers\LessonController@index')->name('lesson.index');
 Route::get('/lessons/{id}', 'App\Http\Controllers\LessonController@show')->name('lesson.show');
 
-// orders routes
-Route::get('/orders', 'App\Http\Controllers\OrderController@index')->name('order.index');
-Route::get('/orders/{id}', 'App\Http\Controllers\OrderController@show')->name('order.show');
-Route::get('/orders/create', 'App\Http\Controllers\OrderController@create')->name('order.create');
-Route::post('/orders/save', 'App\Http\Controllers\OrderController@save')->name('order.save');
-Route::delete('/orders/{id}', 'App\Http\Controllers\OrderController@delete')->name('order.delete');
-
 // instrument routes
 Route::get('/instruments', 'App\Http\Controllers\InstrumentController@index')->name('instrument.index');
 Route::get('/instruments/{id}', 'App\Http\Controllers\InstrumentController@show')->name('instrument.show');
@@ -25,23 +18,24 @@ Route::get('/instruments/{id}', 'App\Http\Controllers\InstrumentController@show'
 // stock routes
 Route::get('/stocks', 'App\Http\Controllers\StockController@index')->name('stock.index');
 Route::get('/stocks/{id}', 'App\Http\Controllers\StockController@show')->name('stock.show');
-Route::post('/stocks/{id}/add', 'App\Http\Controllers\StockController@addStock')->name('stock.add');
-Route::post('/stocks/{id}/lower', 'App\Http\Controllers\StockController@lowerStock')->name('stock.lower');
-Route::delete('/stocks/{id}/delete', 'App\Http\Controllers\StockController@delete')->name('stock.delete');
 
-// reviews routes
-Route::get('/instruments/{id}/create-review', 'App\Http\Controllers\ReviewController@create')->name('review.create');
-Route::post('/instruments/{id}/save-review', 'App\Http\Controllers\ReviewController@save')->name('review.save');
-
+Route::middleware([CheckGroup::class . ':user'])->group(function () {
 // cart routes
-Route::get('/cart', 'App\Http\Controllers\CartController@index')->name('cart.index');
-Route::post('/cart/add/{id}/{type}', 'App\Http\Controllers\CartController@add')->name('cart.add');
-Route::delete('/cart/remove-item/{id}/{type}', 'App\Http\Controllers\CartController@removeItem')->name('cart.removeItem');
-Route::delete('/cart/removeAll/', 'App\Http\Controllers\CartController@removeAll')->name('cart.removeAll');
+    Route::get('/cart', 'App\Http\Controllers\CartController@index')->name('cart.index');    
+    Route::post('/cart/add/{id}/{type}', 'App\Http\Controllers\CartController@add')->name('cart.add');
+    Route::delete('/cart/remove-item/{id}/{type}', 'App\Http\Controllers\CartController@removeItem')->name('cart.removeItem');
+    Route::delete('/cart/removeAll/', 'App\Http\Controllers\CartController@removeAll')->name('cart.removeAll');
 
-Route::get('/order', 'App\Http\Controllers\OrderController@index')->name('order.index');
-Route::post('/checkout', 'App\Http\Controllers\OrderController@checkout')->name('order.checkout');
-Route::get('/order/{id}', 'App\Http\Controllers\OrderController@show')->name('order.show');
+// order routes
+    Route::get('/order', 'App\Http\Controllers\OrderController@index')->name('order.index');
+    Route::post('/checkout', 'App\Http\Controllers\OrderController@checkout')->name('order.checkout');
+    Route::get('/order/{id}', 'App\Http\Controllers\OrderController@show')->name('order.show');
+
+    // reviews routes
+    Route::get('/instruments/{id}/create-review', 'App\Http\Controllers\ReviewController@create')->name('review.create');
+    Route::post('/instruments/{id}/save-review', 'App\Http\Controllers\ReviewController@save')->name('review.save');
+});
+
 // Admin routes
 Route::middleware([CheckGroup::class.':admin'])->group(function () {
     Route::get('/admin', 'App\Http\Controllers\Admin\DashboardController@index')->name('admin.index');
@@ -64,7 +58,7 @@ Route::middleware([CheckGroup::class.':admin'])->group(function () {
     Route::post('/admin/stock/{id}/lower', 'App\Http\Controllers\Admin\AdminStockController@lowerStock')->name('admin.stock.lower');
     Route::delete('/admin/stock/{id}/delete', 'App\Http\Controllers\Admin\AdminStockController@delete')->name('admin.stock.delete');
 
-    Route::get('/admin/order', 'App\Http\Controllers\Admin\AdminOrderController@index')->name('admin.order.index');
+    // Route::get('/admin/order', 'App\Http\Controllers\Admin\AdminOrderController@index')->name('admin.order.index');
     Route::get('/admin/order/{id}', 'App\Http\Controllers\Admin\AdminOrderController@show')->name('admin.order.show');
     Route::delete('/admin/order/{id}/delete', 'App\Http\Controllers\Admin\AdminOrderController@delete')->name('admin.order.delete');
 });

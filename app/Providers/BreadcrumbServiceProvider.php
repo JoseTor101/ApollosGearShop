@@ -126,5 +126,15 @@ class BreadcrumbServiceProvider extends ServiceProvider
             $trail->parent('admin.stock.index');
             $trail->push("Stock $id", route('admin.stock.show', $id));
         });
+
+        Breadcrumbs::for('admin.order.index', function (BreadcrumbTrail $trail) {
+            $trail->parent('admin.index');
+            $trail->push("Order", route('admin.order.index'));
+        });
+
+        Breadcrumbs::for('admin.order.show', function (BreadcrumbTrail $trail, $id) {
+            $trail->parent('admin.order.index');
+            $trail->push("Order $id", route('admin.order.show', $id));
+        });
     }
 }

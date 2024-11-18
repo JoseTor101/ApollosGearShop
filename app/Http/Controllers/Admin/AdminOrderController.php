@@ -21,15 +21,11 @@ class AdminOrderController extends Controller
             'orders' => Order::all(),
         ];
 
-        return view('admin.order.index')->with('viewData', $viewData);
+        return view('admin.index')->with('viewData', $viewData);
     }
 
     public function checkout(Request $request): RedirectResponse
-    {
-        if (!auth()->check()) {
-            return redirect()->route('cart.index')->with('message', 'You must be logged in to proceed with checkout.');
-        }        
-        
+    {        
         $cartItems = $request->session()->get('cart_items', []);
 
         if (! OrderUtils::validateSessionItems($cartItems)) {

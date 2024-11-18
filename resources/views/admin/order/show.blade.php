@@ -3,7 +3,7 @@
 @section('subtitle', $viewData["subtitle"])
 
 @section('content')
-
+{{ Breadcrumbs::render() }}
 <div class="card mb-3">
     <div class="row g-0">
         <div class="col-md-4">

@@ -60,12 +60,5 @@
     @else
     <p>{{ __('cart.empty_cart') }}</p>
     @endif
-    <div>
-        @if(session('message'))
-            <div class="alert alert-warning text-center">
-                {{ __('messages.not_logged_in') }}
-            </div>
-        @endif
-    </div>
 </div>
 @endsection

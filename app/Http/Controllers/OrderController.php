@@ -14,10 +14,16 @@ class OrderController extends Controller
 {
     public function index(Request $request): View
     {
+        $user = auth()->user();
+
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
         $viewData = [
             'title' => 'Order - Online Store',
             'subtitle' => __('navbar.list_orders'),
-            'orders' => Order::all(),
+            'orders' => Order::where('user_id', $user->getId())->get(),
         ];
 
         return view('order.index')->with('viewData', $viewData);
@@ -25,10 +31,6 @@ class OrderController extends Controller
 
     public function checkout(Request $request): RedirectResponse
     {
-        if (!auth()->check()) {
-            return redirect()->route('cart.index')->with('message', 'You must be logged in to proceed with checkout.');
-        }        
-
         $cartItems = $request->session()->get('cart_items', []);
 
         if (! OrderUtils::validateSessionItems($cartItems)) {
@@ -61,12 +63,21 @@ class OrderController extends Controller
 
         $request->session()->forget('cart_items');
 
-        return redirect()->route('order.index')->with('message', 'Checkout successful! Your order total is $'.number_format($total / 100, 2));
+        // return redirect()->route('order.show')->with('message', 'Checkout successful! Your order total is $'.number_format($total / 100, 2));
+        return redirect()->route('order.show', ['id' => $order->id])
+        ->with('message', 'Checkout successful! Your order total is $' . number_format($total / 100, 2));
     }
 
     public function show(int $id): View
     {
-        $order = Order::with('itemInOrders')->findOrFail($id);
+        $user = auth()->user();
+
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        $order = Order::with('itemInOrders')->where('id', $id)->where('user_id', $user->getId())->firstOrFail();
+
         $items = $order->getItemInOrder()->get();
 
         foreach ($items as $item) {
@@ -82,15 +93,4 @@ class OrderController extends Controller
 
         return view('order.show')->with('viewData', $viewData);
     }
-
-    // public function delete(int $id): RedirectResponse
-    // {
-    //     $order = Order::findOrFail($id);
-
-    //     OrderUtils::restoreStock($order);
-
-    //     $order->delete();
-
-    //     return redirect()->route('order.index')->with('message', 'Order deleted successfully.');
-    // }
 }
