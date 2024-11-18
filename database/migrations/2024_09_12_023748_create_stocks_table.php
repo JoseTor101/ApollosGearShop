@@ -6,10 +6,10 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up(): void
+    public function up()
     {
-        if (!Schema::hasTable('stock')) {
-            Schema::create('stock', function (Blueprint $table) {
+        if (!Schema::hasTable('stocks')) {
+            Schema::create('stocks', function (Blueprint $table) {
                 $table->id();
                 $table->integer('quantity');
                 $table->string('type')->default(0);
@@ -20,8 +20,15 @@ return new class extends Migration
         }
     }
 
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('stock');
+        if (Schema::hasTable('stocks')) {
+            Schema::table('stocks', function (Blueprint $table) {
+                $table->dropForeign(['instrument_id']);
+            });
+
+            Schema::dropIfExists('stocks');
+        }
     }
+
 };

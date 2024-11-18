@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('lessons')) {
+        if (!Schema::hasTable('')) {
             Schema::create('instruments', function (Blueprint $table) {
                 $table->id();
                 $table->string('name');

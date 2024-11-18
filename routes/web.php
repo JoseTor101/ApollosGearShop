@@ -7,11 +7,7 @@ use Illuminate\Support\Facades\Session;
 
 Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home.index');
 
-Route::get('locale/{locale}', function ($locale) {
-    Session::put('locale', $locale);
-
-    return redirect()->back();
-});
+Route::get('locale/{locale}', 'App\Http\Controllers\LocaleController@setLocale')->name('locale.set');
 
 // user routes
 // lessons routes
