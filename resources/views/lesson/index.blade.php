@@ -31,4 +31,10 @@
     </div>
     @endforeach
 </div>
+
+<!-- Pagination Links -->
+<div class="d-flex justify-content-center">
+    {{ $viewData['lessons']->links() }}
+</div>
+
 @endsection

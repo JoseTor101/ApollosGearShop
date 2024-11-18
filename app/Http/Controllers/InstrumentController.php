@@ -23,7 +23,7 @@ class InstrumentController extends Controller
     public function index(Request $request): View
     {
         $filters = Arrays::getFilters($request);
-        $instruments = Instrument::filterInstruments($filters)->get();
+        $instruments = Instrument::filterInstruments($filters)->paginate(8);
 
         $viewData = [
             'title' => __('messages.instrument_list'),

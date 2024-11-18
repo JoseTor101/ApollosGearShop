@@ -61,9 +61,18 @@
                 @include('components.review.review_list', ['viewData' => $viewData])
 
             </div>
+            
+            <div class="d-flex justify-content-center align-items-center" style="height: 18vh;">
                 @csrf
                 <!-- Include Add to Cart Form for Instruments -->
-                @include('components.cart.add', ['productId' => $viewData['instrument']->getId(), 'productType' => 'Instrument', 'maxQuantity' => $viewData['instrument']->getQuantity()])
+                @include('components.cart.add', [
+                    'productId' => $viewData['instrument']->getId(),
+                    'productType' => 'Instrument',
+                    'maxQuantity' => $viewData['instrument']->getQuantity()
+                ])
+            </div>
+
+
             </div> 
         </div>
     </div>
