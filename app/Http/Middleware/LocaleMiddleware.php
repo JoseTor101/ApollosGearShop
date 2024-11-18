@@ -12,7 +12,7 @@ class LocaleMiddleware
     public function handle(Request $request, Closure $next)
     {
         $locale = Session::get('locale', 'en');
-        
+
         App::setLocale($locale);
 
         return $next($request);

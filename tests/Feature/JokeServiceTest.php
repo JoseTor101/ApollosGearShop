@@ -2,14 +2,14 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
 use App\Services\JokeService;
+use Tests\TestCase;
 
 class JokeServiceTest extends TestCase
 {
     public function test_get_joke_returns_data_from_api()
     {
-        $jokeService = new JokeService();
+        $jokeService = new JokeService;
         $response = $jokeService->getJoke('es');
         //$response = $jokeService->getJoke('en');
 
