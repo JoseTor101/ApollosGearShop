@@ -79,9 +79,9 @@
         <div class="card h-100 shadow-sm">
             <!-- Instrument Image -->
             {{-- 
+                <img src="{{ asset('storage/' . $instrument->getImage()) }}" class="card-img-top img-card" alt="Instrument Image">
+                --}}
                 <img src="{{ $instrument->getImage() }}" class="card-img-top img-card" alt="Instrument Image">
-            --}}
-            <img src="{{ asset('storage/' . $instrument->getImage()) }}" class="card-img-top img-card" alt="Instrument Image">
             
 
             <div class="card-body text-center">
@@ -119,6 +119,12 @@
     </div>
     @endforeach
 </div>
+<!-- Pagination Links -->
+<div class="d-flex justify-content-center">
+    {{ $viewData['instruments']->links() }}
+</div>
+
+
 {{--
 <div class="row">
     @foreach ($viewData["instruments"] as $instrument)
