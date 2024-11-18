@@ -15,8 +15,8 @@ use Tests\TestCase;
 
 class CheckoutTest extends TestCase
 {
-    //use RefreshDatabase; // If you run with this all your db data will be lost
-    use DatabaseTransactions;
+    use RefreshDatabase; // If you run with this all your db data will be lost
+    //use DatabaseTransactions;
 
     public function test_checkout_process_successfully()
     {

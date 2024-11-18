@@ -3,8 +3,14 @@
 use App\Http\Middleware\CheckGroup;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home.index');
+
+Route::get('locale/{locale}', function ($locale) {
+    Session::put('locale', $locale);
+    return redirect()->back();
+});
 
 // user routes
 // lessons routes
