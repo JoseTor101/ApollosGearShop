@@ -24,7 +24,7 @@ class LessonController extends Controller
             'title' => __('messages.list_lessons'),
             'subtitle' => __('navbar.list_lessons'),
             'message' => Session::get('message'),
-            'lessons' => Lesson::all(),
+            'lessons' => Lesson::paginate(4),
         ];
 
         Session::forget('message');

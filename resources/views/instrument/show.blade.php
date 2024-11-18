@@ -9,9 +9,9 @@
     <div class="row g-0">
         <div class="col-md-4">
             {{-- 
+                <img src="{{ asset('storage/' . $viewData['instrument']->getImage()) }}" class="card-img-top img-card" alt="Instrument Image">
+                --}}
                 <img src="{{ $viewData['instrument']->getImage() }}" class="card-img-top img-card" alt="Instrument Image">
-            --}}
-            <img src="{{ asset('storage/' . $viewData['instrument']->getImage()) }}" class="card-img-top img-card" alt="Instrument Image">
         </div>
         <div class="col-md-8">
             <div class="card-body">
@@ -61,9 +61,18 @@
                 @include('components.review.review_list', ['viewData' => $viewData])
 
             </div>
+            
+            <div class="d-flex justify-content-center align-items-center" style="height: 18vh;">
                 @csrf
                 <!-- Include Add to Cart Form for Instruments -->
-                @include('components.cart.add', ['productId' => $viewData['instrument']->getId(), 'productType' => 'Instrument', 'maxQuantity' => $viewData['instrument']->getQuantity()])
+                @include('components.cart.add', [
+                    'productId' => $viewData['instrument']->getId(),
+                    'productType' => 'Instrument',
+                    'maxQuantity' => $viewData['instrument']->getQuantity()
+                ])
+            </div>
+
+
             </div> 
         </div>
     </div>
