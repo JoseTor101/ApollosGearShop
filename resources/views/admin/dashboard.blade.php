@@ -85,6 +85,7 @@
                         <h6 class="card-title">{{ __('attributes.order_id') }}: {{ $order->getId() }}</h6>
                         <span class="badge bg-info text-dark">{{ __('attributes.created_at') }}: {{ $order->getCreatedAt() }}</span>
                         <a href="{{ route('admin.order.show', ['id' => $order->getId()]) }}" class="btn btn-sm btn-primary">{{ __('messages.view_order') }}</a>
+                        <!-- <a href="{{ route('admin.order.show', ['id' => $order->getId()]) }}" class="btn btn-sm btn-primary">{{ __('messages.view_order') }}</a> -->
                     </div>
                     <hr>
                     @endforeach

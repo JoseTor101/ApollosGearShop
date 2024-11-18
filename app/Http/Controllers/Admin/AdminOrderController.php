@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Util\OrderUtils;
 use Illuminate\Http\RedirectResponse;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 use InvalidArgumentException;
 
-class OrderController extends Controller
+class AdminOrderController extends Controller
 {
     public function index(Request $request): View
     {
@@ -20,7 +21,7 @@ class OrderController extends Controller
             'orders' => Order::all(),
         ];
 
-        return view('order.index')->with('viewData', $viewData);
+        return view('admin.order.index')->with('viewData', $viewData);
     }
 
     public function checkout(Request $request): RedirectResponse
@@ -28,7 +29,7 @@ class OrderController extends Controller
         if (!auth()->check()) {
             return redirect()->route('cart.index')->with('message', 'You must be logged in to proceed with checkout.');
         }        
-
+        
         $cartItems = $request->session()->get('cart_items', []);
 
         if (! OrderUtils::validateSessionItems($cartItems)) {
@@ -80,17 +81,17 @@ class OrderController extends Controller
             'items' => $items,
         ];
 
-        return view('order.show')->with('viewData', $viewData);
+        return view('admin.order.show')->with('viewData', $viewData);
     }
 
-    // public function delete(int $id): RedirectResponse
-    // {
-    //     $order = Order::findOrFail($id);
+    public function delete(int $id): RedirectResponse
+    {
+        $order = Order::findOrFail($id);
 
-    //     OrderUtils::restoreStock($order);
+        OrderUtils::restoreStock($order);
 
-    //     $order->delete();
+        $order->delete();
 
-    //     return redirect()->route('order.index')->with('message', 'Order deleted successfully.');
-    // }
+        return redirect()->route('admin.index')->with('message', 'Order deleted successfully.');
+    }
 }

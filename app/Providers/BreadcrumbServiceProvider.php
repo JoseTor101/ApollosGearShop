@@ -53,10 +53,10 @@ class BreadcrumbServiceProvider extends ServiceProvider
             $trail->push("Instrument $id", route('instrument.show', $id));
         });
 
-        // Stocks
+        // Stock
         Breadcrumbs::for('stock.index', function (BreadcrumbTrail $trail) {
             $trail->parent('home.index');
-            $trail->push('Stocks', route('stock.index'));
+            $trail->push('Stock', route('stock.index'));
         });
 
         Breadcrumbs::for('stock.show', function (BreadcrumbTrail $trail, $id) {
@@ -119,7 +119,7 @@ class BreadcrumbServiceProvider extends ServiceProvider
 
         Breadcrumbs::for('admin.stock.index', function (BreadcrumbTrail $trail) {
             $trail->parent('admin.index');
-            $trail->push('Stocks', route('admin.stock.index'));
+            $trail->push('Stock2', route('admin.stock.index'));
         });
 
         Breadcrumbs::for('admin.stock.show', function (BreadcrumbTrail $trail, $id) {

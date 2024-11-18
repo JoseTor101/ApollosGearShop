@@ -57,4 +57,5 @@ return [
     'no_reviews' => 'No reviews available for this product',
     'score' => 'Score',
     'mostCommented' => 'Most Commented',
+    'order_id' => 'Order id',
 ];

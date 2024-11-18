@@ -34,6 +34,11 @@ class Instrument extends Model
      * Review - hasMany
      * ItemInOrder - hasMany
      */
+
+    protected $table = 'instruments';
+
+    protected $guarded = [];
+
     public function stocks(): HasMany
     {
         return $this->hasMany(Stock::class, 'instrument_id');

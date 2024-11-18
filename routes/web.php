@@ -64,6 +64,9 @@ Route::middleware([CheckGroup::class.':admin'])->group(function () {
     Route::post('/admin/stock/{id}/lower', 'App\Http\Controllers\Admin\AdminStockController@lowerStock')->name('admin.stock.lower');
     Route::delete('/admin/stock/{id}/delete', 'App\Http\Controllers\Admin\AdminStockController@delete')->name('admin.stock.delete');
 
+    Route::get('/admin/order', 'App\Http\Controllers\Admin\AdminOrderController@index')->name('admin.order.index');
+    Route::get('/admin/order/{id}', 'App\Http\Controllers\Admin\AdminOrderController@show')->name('admin.order.show');
+    Route::delete('/admin/order/{id}/delete', 'App\Http\Controllers\Admin\AdminOrderController@delete')->name('admin.order.delete');
 });
 
 Auth::routes();

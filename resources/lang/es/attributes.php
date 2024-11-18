@@ -56,4 +56,5 @@ return [
     'reviews' => 'Reseñas',
     'no_reviews' => 'No hay reseñas disponibles para este producto',
     'mostCommented' => 'Los más comentados',
+    'order_id' => 'Order id',
 ];
