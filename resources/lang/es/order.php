@@ -19,5 +19,6 @@ return [
     'select_date' => 'Seleccionar Fecha',
     'delivery_date' => 'Fecha de Entrega',
     'total_price' => 'Precio Total',
-    'generate_pdf' => 'Generar recibo',
+    'generate_pdf' => 'Generar recibo en PDF',
+    'generate_csv' => 'Generar recibo en CSV',
 ];

@@ -25,27 +25,33 @@ class OrderController extends Controller
     }
     public function generateDocument(int $id, string $type)
     {
-        $order = Order::with('items')->findOrFail($id);
-            $data = ['order' => $order];
+        // Cargar la orden con los ítems relacionados
+        $order = Order::with('itemInOrders')->findOrFail($id);
 
-            if ($type === 'pdf') {
-                $generator = $this->pdfGenerator;
-                $contentType = 'application/pdf';
-                $extension = 'pdf';
-            } elseif ($type === 'csv') {
-                $generator = $this->csvGenerator;
-                $contentType = 'text/csv';
-                $extension = 'csv';
-            } else {
-                abort(400, 'Invalid document type');
-            }
+        // Preparar los datos para la vista
+        $data = ['order' => $order];
 
-            $content = $generator->generate('', $data);
+        // Seleccionar el generador según el tipo
+        if ($type === 'pdf') {
+            $generator = $this->pdfGenerator;
+            $contentType = 'application/pdf';
+            $extension = 'pdf';
+        } elseif ($type === 'csv') {
+            $generator = $this->csvGenerator;
+            $contentType = 'text/csv';
+            $extension = 'csv';
+        } else {
+            abort(400, 'Invalid document type');
+        }
 
-            return response($content, 200, [
-                'Content-Type' => $contentType,
-                'Content-Disposition' => "attachment; filename=\"order_{$order->id}.{$extension}\"",
-            ]);
+        // Generar el contenido del documento
+        $content = $generator->generate('order.document', $data);
+
+        // Retornar la respuesta con el archivo generado
+        return response($content, 200, [
+            'Content-Type' => $contentType,
+            'Content-Disposition' => "attachment; filename=\"order_{$order->id}.{$extension}\"",
+        ]);
     }
     public function index(Request $request): View
     {

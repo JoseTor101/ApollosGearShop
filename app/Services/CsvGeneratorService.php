@@ -10,16 +10,22 @@ class CsvGeneratorService implements DocumentGeneratorInterface
     {
         $output = fopen('php://temp', 'r+');
 
-        // Escribe encabezados al archivo CSV
+        // Encabezados del CSV
         fputcsv($output, ['Product', 'Quantity', 'Price']);
 
-        foreach ($data['order']->items as $item) {
-            fputcsv($output, [$item->name, $item->quantity, $item->price]);
+        // Itera sobre los ítems de la orden
+        if (!empty($data['order']->itemInOrders)) {
+            foreach ($data['order']->itemInOrders as $item) {
+                fputcsv($output, [
+                    $item->getType(),
+                    $item->getQuantity(),
+                    $item->getPrice(),
+                ]);
+            }
+        } else {
+            // Mensaje en caso de que no haya ítems
+            fputcsv($output, ['No items found', '', '']);
         }
-
-        // Agrega una fila con el total
-        fputcsv($output, []);
-        fputcsv($output, ['Total', '', $data['order']->total_price]);
 
         rewind($output);
         $csvContent = stream_get_contents($output);
