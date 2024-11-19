@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Interfaces\PdfGeneratorInterface;
+use App\Interfaces\DocumentGeneratorInterface;
 use App\Models\Order;
 use App\Util\OrderUtils;
 use Illuminate\Http\RedirectResponse;
@@ -13,32 +13,45 @@ use InvalidArgumentException;
 
 class OrderController extends Controller
 {
-    private $pdfGenerator;
+    private $documentGenerator;
 
-    public function __construct(PdfGeneratorInterface $pdfGenerator)
+    public function __construct(DocumentGeneratorInterface $documentGenerator)
     {
-        $this->pdfGenerator = $pdfGenerator;
+        $this->documentGenerator = $documentGenerator;
     }
 
-    public function generatePdf(int $id)
+    public function generateDocument(int $id, string $type)
     {
         $order = Order::with('itemInOrders')->findOrFail($id);
         $items = $order->getItemInOrder()->get();
 
         foreach ($items as $item) {
-            $item->name = $item->getType() == 'instrument' ? $item->getInstrument()->getName() : $item->getLesson()->getName();
+            $item->name = $item->getType() == 'instrument' 
+                ? $item->getInstrument()->getName() 
+                : $item->getLesson()->getName();
         }
 
         $data = [
             'order' => $order,
             'items' => $items,
+            'is_excel' => $type === 'excel',
         ];
 
-        $pdfContent = $this->pdfGenerator->generate('order.pdf', $data);
+        $generator = app(DocumentGeneratorInterface::class, ['type' => $type]);
+        $content = $generator->generate('order.document', $data);
 
-        return response($pdfContent, 200)
-            ->header('Content-Type', 'application/pdf')
-            ->header('Content-Disposition', 'inline; filename="order_'.$order->getId().'.pdf"');
+        $headers = [
+            'pdf' => [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'inline; filename="order_'.$order->getId().'.pdf"'
+            ],
+            'excel' => [
+                'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'Content-Disposition' => 'attachment; filename="order_'.$order->getId().'.xlsx"'
+            ],
+        ];
+
+        return response($content, 200, $headers[$type]);
     }
 
     public function index(Request $request): View

@@ -32,7 +32,7 @@ Route::middleware([CheckGroup::class.':user'])->group(function () {
     Route::get('/order', 'App\Http\Controllers\OrderController@index')->name('order.index');
     Route::post('/checkout', 'App\Http\Controllers\OrderController@checkout')->name('order.checkout');
     Route::get('/order/{id}', 'App\Http\Controllers\OrderController@show')->name('order.show');
-    Route::get('/order/{id}/pdf', 'App\Http\Controllers\OrderController@generatePdf')->name('order.pdf');
+    Route::get('/order/{id}/document/{type}', 'App\Http\Controllers\OrderController@generateDocument')->where('type', 'pdf|excel')->name('order.document');
 
     // reviews routes
     Route::get('/instruments/{id}/create-review', 'App\Http\Controllers\ReviewController@create')->name('review.create');

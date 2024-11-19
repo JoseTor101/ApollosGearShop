@@ -1,3 +1,4 @@
+@if (!isset($is_excel) || !$is_excel)
 <style>
     table {
         border-collapse: collapse;
@@ -9,8 +10,13 @@
     th, td {
         border: 1px solid #000;
         padding: 8px;
+        text-align: left;
+    }
+    h1, h2 {
+        margin-bottom: 10px;
     }
 </style>
+@endif
 
 <h1>{{ __('order.order_id')}}: {{ $order->getId() }}</h1>
 <h2>{{ __('order.customer')}}: {{ $order->getUser()->getName() }}</h2>
