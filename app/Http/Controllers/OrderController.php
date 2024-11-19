@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Util\OrderUtils;
+use App\Interfaces\PdfGeneratorInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -12,6 +13,33 @@ use InvalidArgumentException;
 
 class OrderController extends Controller
 {
+    private $pdfGenerator;
+
+    public function __construct(PdfGeneratorInterface $pdfGenerator)
+    {
+        $this->pdfGenerator = $pdfGenerator;
+    }
+
+    public function generatePdf(int $id)
+    {
+        $order = Order::with('itemInOrders')->findOrFail($id);
+        $items = $order->getItemInOrder()->get();
+
+        foreach ($items as $item) {
+            $item->price = $item->getPrice() * $item->getQuantity();
+        }
+
+        $data = [
+            'order' => $order,
+            'items' => $items,
+        ];
+
+        $pdfContent = $this->pdfGenerator->generate('order.pdf', $data);
+
+        return response($pdfContent, 200)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'inline; filename="order_'.$order->id.'.pdf"');
+    }
     public function index(Request $request): View
     {
         $user = auth()->user();
