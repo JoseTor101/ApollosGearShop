@@ -53,6 +53,7 @@ class OrderController extends Controller
             'Content-Disposition' => "attachment; filename=\"order_{$order->id}.{$extension}\"",
         ]);
     }
+    
     public function index(Request $request): View
     {
         $user = auth()->user();
