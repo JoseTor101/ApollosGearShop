@@ -15,5 +15,4 @@ class ProductResource extends JsonResource
             'price' => $this->getPrice(),
         ];
     }
-
 }

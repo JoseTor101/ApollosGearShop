@@ -129,7 +129,7 @@ class BreadcrumbServiceProvider extends ServiceProvider
 
         Breadcrumbs::for('admin.order.index', function (BreadcrumbTrail $trail) {
             $trail->parent('admin.index');
-            $trail->push("Order", route('admin.order.index'));
+            $trail->push('Order', route('admin.order.index'));
         });
 
         Breadcrumbs::for('admin.order.show', function (BreadcrumbTrail $trail, $id) {

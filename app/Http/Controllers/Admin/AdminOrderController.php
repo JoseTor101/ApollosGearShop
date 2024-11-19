@@ -25,7 +25,7 @@ class AdminOrderController extends Controller
     }
 
     public function checkout(Request $request): RedirectResponse
-    {        
+    {
         $cartItems = $request->session()->get('cart_items', []);
 
         if (! OrderUtils::validateSessionItems($cartItems)) {
