@@ -25,9 +25,9 @@ Route::get('/stocks/{id}', 'App\Http\Controllers\StockController@show')->name('s
 Route::get('/externalApi', 'App\Http\Controllers\ExternalApiController@index')->name('externalApi.index');
 Route::get('/externalApi/{id}', 'App\Http\Controllers\ExternalApiController@show')->name('externalApi.show');
 
-Route::middleware([CheckGroup::class . ':user'])->group(function () {
-// cart routes
-    Route::get('/cart', 'App\Http\Controllers\CartController@index')->name('cart.index');    
+Route::middleware([CheckGroup::class.':user'])->group(function () {
+    // cart routes
+    Route::get('/cart', 'App\Http\Controllers\CartController@index')->name('cart.index');
     Route::post('/cart/add/{id}/{type}', 'App\Http\Controllers\CartController@add')->name('cart.add');
     Route::delete('/cart/remove-item/{id}/{type}', 'App\Http\Controllers\CartController@removeItem')->name('cart.removeItem');
     Route::delete('/cart/removeAll/', 'App\Http\Controllers\CartController@removeAll')->name('cart.removeAll');

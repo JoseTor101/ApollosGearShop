@@ -14,7 +14,7 @@ class CsvGeneratorService implements DocumentGeneratorInterface
         fputcsv($output, ['Product', 'Quantity', 'Price']);
 
         // Itera sobre los ítems de la orden
-        if (!empty($data['order']->itemInOrders)) {
+        if (! empty($data['order']->itemInOrders)) {
             foreach ($data['order']->itemInOrders as $item) {
                 fputcsv($output, [
                     $item->getType(),

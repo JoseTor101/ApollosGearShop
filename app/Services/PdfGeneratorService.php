@@ -10,7 +10,7 @@ class PdfGeneratorService implements DocumentGeneratorInterface
 {
     public function generate(string $view, array $data): string
     {
-        $options = new Options();
+        $options = new Options;
         $options->set('defaultFont', 'Courier');
 
         $dompdf = new Dompdf($options);

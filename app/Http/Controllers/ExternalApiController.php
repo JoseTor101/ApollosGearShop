@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\App;
-use Illuminate\View\View;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class ExternalApiController extends Controller
 {
@@ -12,7 +11,7 @@ class ExternalApiController extends Controller
     {
         return view('externalApi.index');
     }
-    
+
     public function show(string $id, Request $request): View|RedirectResponse
     {
         $viewData = [
