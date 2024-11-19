@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Interfaces\DocumentGeneratorInterface;
+use App\Services\PdfGeneratorService;
+use App\Services\CsvGeneratorService;
 use App\Models\Order;
 use App\Util\OrderUtils;
 use Illuminate\Http\RedirectResponse;
@@ -13,47 +15,38 @@ use InvalidArgumentException;
 
 class OrderController extends Controller
 {
-    private $documentGenerator;
+    private $pdfGenerator;
+    private $csvGenerator;
 
-    public function __construct(DocumentGeneratorInterface $documentGenerator)
+    public function __construct()
     {
-        $this->documentGenerator = $documentGenerator;
+        $this->pdfGenerator = app(PdfGeneratorService::class);
+        $this->csvGenerator = app(CsvGeneratorService::class);
     }
-
     public function generateDocument(int $id, string $type)
     {
-        $order = Order::with('itemInOrders')->findOrFail($id);
-        $items = $order->getItemInOrder()->get();
+        $order = Order::with('items')->findOrFail($id);
+            $data = ['order' => $order];
 
-        foreach ($items as $item) {
-            $item->name = $item->getType() == 'instrument' 
-                ? $item->getInstrument()->getName() 
-                : $item->getLesson()->getName();
-        }
+            if ($type === 'pdf') {
+                $generator = $this->pdfGenerator;
+                $contentType = 'application/pdf';
+                $extension = 'pdf';
+            } elseif ($type === 'csv') {
+                $generator = $this->csvGenerator;
+                $contentType = 'text/csv';
+                $extension = 'csv';
+            } else {
+                abort(400, 'Invalid document type');
+            }
 
-        $data = [
-            'order' => $order,
-            'items' => $items,
-            'is_excel' => $type === 'excel',
-        ];
+            $content = $generator->generate('', $data);
 
-        $generator = app(DocumentGeneratorInterface::class, ['type' => $type]);
-        $content = $generator->generate('order.document', $data);
-
-        $headers = [
-            'pdf' => [
-                'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'inline; filename="order_'.$order->getId().'.pdf"'
-            ],
-            'excel' => [
-                'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                'Content-Disposition' => 'attachment; filename="order_'.$order->getId().'.xlsx"'
-            ],
-        ];
-
-        return response($content, 200, $headers[$type]);
+            return response($content, 200, [
+                'Content-Type' => $contentType,
+                'Content-Disposition' => "attachment; filename=\"order_{$order->id}.{$extension}\"",
+            ]);
     }
-
     public function index(Request $request): View
     {
         $user = auth()->user();

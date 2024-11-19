@@ -81,8 +81,14 @@
 
                 </div>
                 <div class="d-flex align-items-center justify-content-center">
-                    <a href="{{ route('order.pdf', ['id' => $viewData['order']->getId()]) }}" class="btn btn-info">
-                        {{ __('order.generate_pdf')}}
+                    <!-- Botón para generar PDF -->
+                    <a href="{{ route('order.document', ['id' => $viewData['order']->getId(), 'type' => 'pdf']) }}" class="btn btn-info me-2">
+                        {{ __('order.generate_pdf') }}
+                    </a>
+
+                    <!-- Botón para generar CSV -->
+                    <a href="{{ route('order.document', ['id' => $viewData['order']->getId(), 'type' => 'csv']) }}" class="btn btn-success">
+                        {{ __('order.generate_csv') }}
                     </a>
                 </div>
             </div>
