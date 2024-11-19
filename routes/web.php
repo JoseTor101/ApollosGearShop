@@ -3,7 +3,6 @@
 use App\Http\Middleware\CheckGroup;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Session;
 
 Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home.index');
 
@@ -22,14 +21,14 @@ Route::get('/instruments/{id}', 'App\Http\Controllers\InstrumentController@show'
 Route::get('/stocks', 'App\Http\Controllers\StockController@index')->name('stock.index');
 Route::get('/stocks/{id}', 'App\Http\Controllers\StockController@show')->name('stock.show');
 
-Route::middleware([CheckGroup::class . ':user'])->group(function () {
-// cart routes
-    Route::get('/cart', 'App\Http\Controllers\CartController@index')->name('cart.index');    
+Route::middleware([CheckGroup::class.':user'])->group(function () {
+    // cart routes
+    Route::get('/cart', 'App\Http\Controllers\CartController@index')->name('cart.index');
     Route::post('/cart/add/{id}/{type}', 'App\Http\Controllers\CartController@add')->name('cart.add');
     Route::delete('/cart/remove-item/{id}/{type}', 'App\Http\Controllers\CartController@removeItem')->name('cart.removeItem');
     Route::delete('/cart/removeAll/', 'App\Http\Controllers\CartController@removeAll')->name('cart.removeAll');
 
-// order routes
+    // order routes
     Route::get('/order', 'App\Http\Controllers\OrderController@index')->name('order.index');
     Route::post('/checkout', 'App\Http\Controllers\OrderController@checkout')->name('order.checkout');
     Route::get('/order/{id}', 'App\Http\Controllers\OrderController@show')->name('order.show');

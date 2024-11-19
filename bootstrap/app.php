@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\InjectJoke;
 use App\Http\Middleware\LocaleMiddleware;
+use App\Providers\PdfServiceProvider;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -20,6 +21,9 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
     })
+    ->withProviders([
+        PdfServiceProvider::class,
+    ])
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();

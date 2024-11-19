@@ -39,7 +39,7 @@ class Order extends Model
         return $this->hasMany(ItemInOrder::class);
     }
 
-    public function getUser(): BelongsTo
+    public function getUser(): User
     {
         return $this->user;
     }
@@ -67,6 +67,11 @@ class Order extends Model
     public function getUpdatedAt(): string
     {
         return $this->attributes['updated_at'];
+    }
+
+    public function getDeliveryDate(): string
+    {
+        return $this->attributes['deliveryDate'];
     }
 
     public function getTotalPrice(): int

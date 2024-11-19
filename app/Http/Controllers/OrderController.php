@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\PdfGeneratorInterface;
 use App\Models\Order;
 use App\Util\OrderUtils;
-use App\Interfaces\PdfGeneratorInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -26,7 +26,7 @@ class OrderController extends Controller
         $items = $order->getItemInOrder()->get();
 
         foreach ($items as $item) {
-            $item->price = $item->getPrice() * $item->getQuantity();
+            $item->name = $item->getType() == 'instrument' ? $item->getInstrument()->getName() : $item->getLesson()->getName();
         }
 
         $data = [
@@ -38,13 +38,14 @@ class OrderController extends Controller
 
         return response($pdfContent, 200)
             ->header('Content-Type', 'application/pdf')
-            ->header('Content-Disposition', 'inline; filename="order_'.$order->id.'.pdf"');
+            ->header('Content-Disposition', 'inline; filename="order_'.$order->getId().'.pdf"');
     }
+
     public function index(Request $request): View
     {
         $user = auth()->user();
 
-        if (!$user) {
+        if (! $user) {
             return redirect()->route('login');
         }
 
@@ -72,7 +73,7 @@ class OrderController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        // Decode cart items
+
         $cartItems = json_decode($request->input('cart_items'), true) ?? $cartItems;
 
         try {
@@ -91,26 +92,21 @@ class OrderController extends Controller
 
         $request->session()->forget('cart_items');
 
-        // return redirect()->route('order.show')->with('message', 'Checkout successful! Your order total is $'.number_format($total / 100, 2));
         return redirect()->route('order.show', ['id' => $order->id])
-        ->with('message', 'Checkout successful! Your order total is $' . number_format($total / 100, 2));
+            ->with('message', 'Checkout successful! Your order total is $'.number_format($total / 100, 2));
     }
 
     public function show(int $id): View
     {
         $user = auth()->user();
 
-        if (!$user) {
+        if (! $user) {
             return redirect()->route('login');
         }
 
         $order = Order::with('itemInOrders')->where('id', $id)->where('user_id', $user->getId())->firstOrFail();
 
         $items = $order->getItemInOrder()->get();
-
-        foreach ($items as $item) {
-            $item->price = $item->getPrice() * $item->getQuantity();
-        }
 
         $viewData = [
             'title' => 'Order Details',

@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        if (!Schema::hasTable('orders')) {
+        if (! Schema::hasTable('orders')) {
             Schema::create('orders', function (Blueprint $table) {
                 $table->id();
                 $table->date('creationDate');
@@ -19,7 +19,6 @@ return new class extends Migration
             });
         }
     }
-
 
     public function down(): void
     {

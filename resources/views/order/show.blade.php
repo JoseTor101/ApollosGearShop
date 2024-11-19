@@ -11,14 +11,21 @@
         </div>
         <div class="col-md-8">
             <div class="card-body">
-                <h5>{{ __('order.ID')}} {{ $viewData["order"]->id }}</h5>
-                <h5 class="card-title">
-                {{ __('order.creation_date')}} {{ $viewData["order"]->created_at->format('Y-m-d H:i') }}
-                </h5>
-                <h5 class="card-title">
-                {{ __('order.delivery_date')}} {{ $viewData["order"]->deliveryDate }}
-                </h5>
-                <h6>{{ __('order.products')}}</h6>
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <th class="text-black">{{ __('order.ID')}}</th>
+                        <td>{{ $viewData["order"]->getId() }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-black">{{ __('order.creation_date')}}</th>
+                        <td>{{ $viewData["order"]->getCreatedAt() }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-black">{{ __('order.delivery_date')}}</th>
+                        <td>{{ $viewData["order"]->getDeliveryDate() }}</td>
+                    </tr>
+                </table>
+                <h2>{{ __('order.products')}}</h2>
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -53,10 +60,30 @@
                             </td>
                         </tr>
                         @endforeach
+
+                        <tr>
+                            <th colspan="3">
+                                <h4>
+                                    Total:
+                                </h4>
+                            </th>
+                            <td>
+                                <h4 class="text-success ml-2!important">  $ {{ $viewData['order']->getCustomTotalPrice() }}</h4> 
+                            </td>
+                        </tr>
+
                     </tbody>
                 </table>
-                <div class="h3 secondary">
-                    Total: <p class="text-success"> $ {{ $viewData['order']->getCustomTotalPrice() }}</p>
+                <div class="d-flex justify-content-center">
+                    <div class="h3 secondary d-flex flex-direction-row">
+                        Total: <p class="text-success ml-2!important">  $ {{ $viewData['order']->getCustomTotalPrice() }}</p>
+                    </div>
+
+                </div>
+                <div class="d-flex align-items-center justify-content-center">
+                    <a href="{{ route('order.pdf', ['id' => $viewData['order']->getId()]) }}" class="btn btn-info">
+                        {{ __('order.generate_pdf')}}
+                    </a>
                 </div>
             </div>
         </div>
