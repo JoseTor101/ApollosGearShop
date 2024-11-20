@@ -65,7 +65,7 @@ return [
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
         App\Providers\BreadcrumbServiceProvider::class,
-
+        App\Providers\DocumentServiceProvider::class,
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',

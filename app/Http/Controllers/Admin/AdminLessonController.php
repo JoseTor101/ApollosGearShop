@@ -21,17 +21,6 @@ class AdminLessonController extends Controller
         $this->imageService = $imageService;
     }
 
-    public function index(): View
-    {
-        $viewData = [
-            'title' => __('messages.list_lessons'),
-            'subtitle' => __('navbar.list_lessons'),
-            'lessons' => Lesson::all(),
-        ];
-
-        return view('admin.lesson.index')->with('viewData', $viewData);
-    }
-
     public function create(): View
     {
         $viewData = [

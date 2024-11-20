@@ -34,7 +34,6 @@ class Instrument extends Model
      * Review - hasMany
      * ItemInOrder - hasMany
      */
-
     protected $table = 'instruments';
 
     protected $guarded = [];

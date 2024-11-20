@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        if (!Schema::hasTable('stocks')) {
+        if (! Schema::hasTable('stocks')) {
             Schema::create('stocks', function (Blueprint $table) {
                 $table->id();
                 $table->integer('quantity');
@@ -30,5 +30,4 @@ return new class extends Migration
             Schema::dropIfExists('stocks');
         }
     }
-
 };

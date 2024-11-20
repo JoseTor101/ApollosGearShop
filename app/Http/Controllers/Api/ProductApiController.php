@@ -11,12 +11,14 @@ class ProductApiController extends Controller
     public function index(): JsonResponse
     {
         $products = Instrument::all();
+
         return response()->json($products, 200);
     }
 
     public function show(string $id): JsonResponse
     {
         $product = Instrument::findOrFail($id);
+
         return response()->json($product, 200);
     }
 }

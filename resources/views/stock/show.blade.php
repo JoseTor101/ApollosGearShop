@@ -49,7 +49,7 @@
                 </dl>
             </div>
             <div class="card-footer text-center">
-                <a href="{{ route('stock.index') }}" class="btn btn-primary">{{ __('messages.back_to_stock_list') }}</a>
+                <a href="{{ route('admin.stock.index') }}" class="btn btn-primary">{{ __('messages.back_to_stock_list') }}</a>
             </div>
         </div>
 

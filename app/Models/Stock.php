@@ -29,16 +29,20 @@ class Stock extends Model
      *
      * Instrument - belongsTo
      */
-
-    protected $table = 'stocks';
+    //protected $table = 'stocks';
 
     protected $guarded = [];
 
     /* ---- GETTERS & SETTERS ----*/
 
-    public function getInstrument(): BelongsTo
+    public function instrument(): BelongsTo
     {
         return $this->belongsTo(Instrument::class, 'instrument_id');
+    }
+
+    public function getInstrument(): Instrument
+    {
+        return $this->instrument;
     }
 
     public function getInstrumentId(): int
@@ -114,26 +118,6 @@ class Stock extends Model
         ]);
     }
 
-    /*public function lowerStock(int $quantity, ?string $comments = null): void
-    {
-        if ($this->attributes['quantity'] < $quantity) {
-            throw new InvalidArgumentException('Quantity cannot be negative.');
-        }
-
-        $latestStock = Stock::where('instrument_id', $this->attributes['instrument_id'])
-            ->orderBy('created_at', 'desc')
-            ->first();
-
-        $newQuantity = $latestStock->attributes['quantity'] - $quantity;
-
-        Stock::create([
-            'quantity' => $newQuantity,
-            'comments' => $comments,
-            'type' => 'Lower',
-            'instrument_id' => $this->attributes['instrument_id'],
-        ]);
-    }*/
-
     public function lowerStock(int $quantity, ?string $comments = null): void
     {
         $latestStock = Stock::where('instrument_id', $this->attributes['instrument_id'])
@@ -161,9 +145,9 @@ class Stock extends Model
     public function getLatestStocks(): object
     {
         return self::select('s1.*')
-            ->from(DB::raw('(SELECT * FROM stock s1
+            ->from(DB::raw('(SELECT * FROM stocks s1
                          WHERE s1.created_at = (SELECT MAX(s2.created_at)
-                                                 FROM stock s2
+                                                 FROM stocks s2
                                                  WHERE s2.instrument_id = s1.instrument_id)
                         ) as s1'))
             ->orderBy('s1.created_at', 'desc')

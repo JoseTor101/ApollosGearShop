@@ -59,7 +59,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ route('stock.index') }}">{{ __('navbar.stock') }}</a>
+                        <a class="nav-link active" href="{{ route('admin.stock.index') }}">{{ __('navbar.stock') }}</a>
                     </li> -->
                     <li class="nav-item">
                         <a class="nav-link active" href="{{ route('cart.index') }}">{{ __('navbar.cart') }}</a>

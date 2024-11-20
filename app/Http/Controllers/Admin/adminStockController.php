@@ -36,7 +36,7 @@ class AdminStockController extends Controller
         $viewData['message'] = Session::get('message');
         Session::forget('message');
 
-        return view('stock.index')->with('viewData', $viewData);
+        return view('admin.stock.index')->with('viewData', $viewData);
     }
 
     public function show(int $id): View
