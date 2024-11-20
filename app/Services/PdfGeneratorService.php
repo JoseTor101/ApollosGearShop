@@ -10,7 +10,11 @@ class PdfGeneratorService implements DocumentGeneratorInterface
 {
     public function generate(string $view, array $data): string
     {
+<<<<<<< HEAD
         $options = new Options;
+=======
+        $options = new Options();
+>>>>>>> 23forms
         $options->set('defaultFont', 'Courier');
 
         $dompdf = new Dompdf($options);
@@ -22,4 +26,8 @@ class PdfGeneratorService implements DocumentGeneratorInterface
 
         return $dompdf->output();
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 23forms
