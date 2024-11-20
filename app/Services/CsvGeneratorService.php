@@ -14,7 +14,6 @@ class CsvGeneratorService implements DocumentGeneratorInterface
             __('order.order_id'),
             __('order.customer'),
             __('order.creation_date'),
-            __('order.delivery_date'), ]);
             __('order.delivery_date'),]);
         fputcsv($output, [
             $data['order']->getId(),
