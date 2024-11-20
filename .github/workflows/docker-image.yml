@@ -7,14 +7,13 @@ on:
     branches: [ "master" ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
-    - name: docker login
+    
+    - name: Docker login
       env:
         DOCKER_USER: ${{secrets.DOCKERHUB_USER}}
         DOCKER_PASS: ${{secrets.DOCKERHUB_PASSWORD}}
@@ -25,11 +24,13 @@ jobs:
       run: |
         echo "${{ secrets.MY_ENV_FILE }}" > .env
 
-    - name: Set up GCP Service Account key
-      run: echo "${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}" > storage/keys/gcp-service-account.json
+    - name: Create directory for GCP service account key
+      run: |
+        mkdir -p storage/keys  
+        echo "${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}" > storage/keys/gcp-service-account.json
 
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag josetor101/apollosgearshop:latest
-      
+
     - name: Docker Push
       run: docker push josetor101/apollosgearshop:latest
