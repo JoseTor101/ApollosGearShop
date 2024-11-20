@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Services\GameService;
-use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Exception;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\View\View;
 use Exception;
 
 class ExternalApiController extends Controller
@@ -27,7 +28,8 @@ class ExternalApiController extends Controller
                 $games = $response->json();
 
                 if (empty($games)) {
-                    $error = "No games found.";
+                    $error = 'No games found.';
+
                     return view('externalApi.index', compact('error'));
                 }
 
@@ -43,10 +45,10 @@ class ExternalApiController extends Controller
             }
         } catch (Exception $e) {
             $error = $e->getMessage();
+
             return view('externalApi.index', compact('error'));
         }
     }
-
 
     public function show(string $id, Request $request): View|RedirectResponse
     {
@@ -59,8 +61,9 @@ class ExternalApiController extends Controller
             $games = $this->gameService->getGames();
 
             $game = collect($games)->firstWhere('id', $id);
+          
+            if (! $game) {
 
-            if (!$game) {
                 $viewData['error'] = 'Game not found.';
             } else {
                 $viewData['game'] = $game;
