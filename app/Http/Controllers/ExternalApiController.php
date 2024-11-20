@@ -39,9 +39,9 @@ class ExternalApiController extends Controller
 
                 return view('externalApi.index', compact('viewData'));
             } else {
-                throw new \Exception('Error fetching data from API');
+                throw new Exception('Error fetching data from API');
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $error = $e->getMessage();
             return view('externalApi.index', compact('error'));
         }
