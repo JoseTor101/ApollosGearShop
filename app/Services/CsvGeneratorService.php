@@ -27,7 +27,6 @@ class CsvGeneratorService implements DocumentGeneratorInterface
         fputcsv($output, [
             __('order.product'),
             __('order.quantity'),
-            __('order.price'), ]);
             __('order.price'),]);
 
         foreach ($data['order']->itemInOrders as $item) {
