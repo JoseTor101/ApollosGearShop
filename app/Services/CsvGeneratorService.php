@@ -15,6 +15,7 @@ class CsvGeneratorService implements DocumentGeneratorInterface
             __('order.customer'),
             __('order.creation_date'),
             __('order.delivery_date'), ]);
+            __('order.delivery_date'),]);
         fputcsv($output, [
             $data['order']->getId(),
             $data['order']->getUser()->getName(),
@@ -28,6 +29,7 @@ class CsvGeneratorService implements DocumentGeneratorInterface
             __('order.product'),
             __('order.quantity'),
             __('order.price'), ]);
+            __('order.price'),]);
 
         foreach ($data['order']->itemInOrders as $item) {
             fputcsv($output, [

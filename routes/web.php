@@ -42,7 +42,7 @@ Route::middleware([CheckGroup::class.':user'])->group(function () {
 // Admin routes
 Route::middleware([CheckGroup::class.':admin'])->group(function () {
     Route::get('/admin', 'App\Http\Controllers\Admin\DashboardController@index')->name('admin.index');
-
+  
     Route::get('/admin/lesson/create', 'App\Http\Controllers\Admin\AdminLessonController@create')->name('admin.lesson.create');
     Route::post('/admin/lesson/save', 'App\Http\Controllers\Admin\AdminLessonController@save')->name('admin.lesson.save');
     Route::delete('/admin/lesson/{id}', 'App\Http\Controllers\Admin\AdminLessonController@delete')->name('admin.lesson.delete');

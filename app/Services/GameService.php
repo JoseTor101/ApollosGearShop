@@ -4,7 +4,7 @@ namespace App\Services;
 
 use Exception;
 use Illuminate\Support\Facades\Http;
-
+use Exception;
 class GameService
 {
     private $baseUrl;

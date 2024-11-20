@@ -11,9 +11,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-// example created with the Lesson model
-// further implementation requires all models
-
 class AdminInstrumentController extends Controller
 {
     protected ImageService $imageService;
