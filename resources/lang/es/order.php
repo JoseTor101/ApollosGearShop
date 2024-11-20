@@ -21,4 +21,5 @@ return [
     'total_price' => 'Precio Total',
     'generate_pdf' => 'Generar recibo en PDF',
     'generate_csv' => 'Generar recibo en CSV',
+    'total' => 'Total',
 ];
