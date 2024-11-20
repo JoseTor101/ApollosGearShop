@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Http;
-
+use Exception;
 
 class ExternalApiController extends Controller
 {
@@ -21,10 +21,10 @@ class ExternalApiController extends Controller
     public function index(Request $request): View
     {
         try {
-            $response = Http::get('http://34.16.118.156/public/api/games');
+            $response = Http::get(env('GAMES_API_URL'));
 
             if ($response->successful()) {
-                $games = $response->json(); 
+                $games = $response->json();
 
                 if (empty($games)) {
                     $error = "No games found.";
@@ -34,7 +34,7 @@ class ExternalApiController extends Controller
                 $viewData = [
                     'title' => 'Games - AGS',
                     'subtitle' => 'External Api Games',
-                    'games' => $games,  
+                    'games' => $games,
                 ];
 
                 return view('externalApi.index', compact('viewData'));
@@ -45,32 +45,30 @@ class ExternalApiController extends Controller
             $error = $e->getMessage();
             return view('externalApi.index', compact('error'));
         }
-}
-
-
-public function show(string $id, Request $request): View|RedirectResponse
-{
-    $viewData = [
-        'title' => 'Games - AGS',
-        'subtitle' => 'External Api Games',
-    ];
-
-    try {
-        $games = $this->gameService->getGames();
-
-        $game = collect($games)->firstWhere('id', $id);
-
-        if (!$game) {
-            $viewData['error'] = 'Game not found.';
-        } else {
-            $viewData['game'] = $game; 
-        }
-
-    } catch (\Exception $e) {
-        return redirect()->route('externalApi.index')->with('error', 'Failed to fetch games.');
     }
 
-    return view('externalApi.show', compact('viewData'));
-}
 
+    public function show(string $id, Request $request): View|RedirectResponse
+    {
+        $viewData = [
+            'title' => 'Games - AGS',
+            'subtitle' => 'External Api Games',
+        ];
+
+        try {
+            $games = $this->gameService->getGames();
+
+            $game = collect($games)->firstWhere('id', $id);
+
+            if (!$game) {
+                $viewData['error'] = 'Game not found.';
+            } else {
+                $viewData['game'] = $game;
+            }
+        } catch (Exception $e) {
+            return redirect()->route('externalApi.index')->with('error', 'Failed to fetch games.');
+        }
+
+        return view('externalApi.show', compact('viewData'));
+    }
 }

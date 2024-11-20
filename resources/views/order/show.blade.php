@@ -11,17 +11,18 @@
         </div>
         <div class="col-md-8">
             <div class="card-body">
+                <h2>Info:</h2>
                 <table class="table table-bordered table-striped">
                     <tr>
-                        <th class="text-black">{{ __('order.ID')}}</th>
+                        <th class="text-black bg-light">{{ __('order.ID')}}</th>
                         <td>{{ $viewData["order"]->getId() }}</td>
                     </tr>
                     <tr>
-                        <th class="text-black">{{ __('order.creation_date')}}</th>
+                        <th class="text-black bg-light">{{ __('order.creation_date')}}</th>
                         <td>{{ $viewData["order"]->getCreatedAt() }}</td>
                     </tr>
                     <tr>
-                        <th class="text-black">{{ __('order.delivery_date')}}</th>
+                        <th class="text-black bg-light">{{ __('order.delivery_date')}}</th>
                         <td>{{ $viewData["order"]->getDeliveryDate() }}</td>
                     </tr>
                 </table>
@@ -61,17 +62,6 @@
                         </tr>
                         @endforeach
 
-                        <tr>
-                            <th colspan="3">
-                                <h4>
-                                    Total:
-                                </h4>
-                            </th>
-                            <td>
-                                <h4 class="text-success ml-2!important">  $ {{ $viewData['order']->getCustomTotalPrice() }}</h4> 
-                            </td>
-                        </tr>
-
                     </tbody>
                 </table>
                 <div class="d-flex justify-content-center">
@@ -81,12 +71,12 @@
 
                 </div>
                 <div class="d-flex align-items-center justify-content-center">
-                    <!-- Botón para generar PDF -->
+                    <!-- Generate PDF -->
                     <a href="{{ route('order.document', ['id' => $viewData['order']->getId(), 'type' => 'pdf']) }}" class="btn btn-info me-2">
                         {{ __('order.generate_pdf') }}
                     </a>
 
-                    <!-- Botón para generar CSV -->
+                    <!-- Generate CSV -->
                     <a href="{{ route('order.document', ['id' => $viewData['order']->getId(), 'type' => 'csv']) }}" class="btn btn-success">
                         {{ __('order.generate_csv') }}
                     </a>

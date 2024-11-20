@@ -18,4 +18,6 @@ return [
     'create_lesson' => 'Create Lesson',
     'cart' => 'Cart',
     'admin_subtitle' => 'Administrator Hub',
+    'external_api' => 'External API',
+    'dashboard' => 'Dashboard',
 ];

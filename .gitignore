@@ -17,11 +17,5 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-<<<<<<< HEAD
-/.zed
-/vendor
-/ApollosGearShop
-=======
 'vendor/' 
->>>>>>> sintax-refactoring
 .env

@@ -41,19 +41,6 @@ class AdminLessonController extends Controller
         return redirect()->route('admin.index')->with('message', $viewData['message']);
     }
 
-    public function show(string $id, Request $request): View|RedirectResponse
-    {
-        $lesson = Lesson::findOrFail($id);
-
-        $viewData = [
-            'title' => $lesson['name'].' - AGS',
-            'subtitle' => $lesson['name'].' - lesson information',
-            'lesson' => $lesson,
-        ];
-
-        return view('admin.lesson.show')->with('viewData', $viewData);
-    }
-
     public function delete($id): RedirectResponse
     {
         $lesson = Lesson::findOrFail($id);

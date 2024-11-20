@@ -50,20 +50,6 @@ class AdminInstrumentController extends Controller
         return redirect()->route('admin.index')->with('message', $viewData['message']);
     }
 
-    public function show(string $id, Request $request): View|RedirectResponse
-    {
-        $instrument = Instrument::with('reviews.user')->findOrFail($id); // Eager load
-
-        $viewData = [
-            'title' => $instrument['name'].' - AGS',
-            'subtitle' => Str::limit($instrument['name'].' - instrument information', 50),
-            'instrument' => $instrument,
-            'category' => __('attributes.categories.'.$instrument->getCategory()),
-            'reviews' => $instrument->reviews,
-        ];
-
-        return view('admin.instrument.show')->with('viewData', $viewData);
-    }
 
     public function delete(int $id): RedirectResponse
     {

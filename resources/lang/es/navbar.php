@@ -18,4 +18,6 @@ return [
     'create_lesson' => 'Crear lección',
     'cart' => 'Carrito',
     'admin_subtitle' => 'Centro de administrador',
+    'external_api' => 'API Externa',
+    'dashboard' => 'Panel de control',
 ];

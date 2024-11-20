@@ -10,25 +10,6 @@ class CsvGeneratorService implements DocumentGeneratorInterface
     {
         $output = fopen('php://temp', 'r+');
 
-<<<<<<< HEAD
-        // Encabezados del CSV
-        fputcsv($output, ['Product', 'Quantity', 'Price']);
-
-        // Itera sobre los ítems de la orden
-        if (! empty($data['order']->itemInOrders)) {
-            foreach ($data['order']->itemInOrders as $item) {
-                fputcsv($output, [
-                    $item->getType(),
-                    $item->getQuantity(),
-                    $item->getPrice(),
-                ]);
-            }
-        } else {
-            // Mensaje en caso de que no haya ítems
-            fputcsv($output, ['No items found', '', '']);
-        }
-
-=======
         fputcsv($output, [
             __('order.order_id'),
             __('order.customer'),
@@ -59,7 +40,6 @@ class CsvGeneratorService implements DocumentGeneratorInterface
         fputcsv($output, []);
         fputcsv($output, [__('order.total'), '', $data['order']->getCustomTotalPrice()]);
 
->>>>>>> 23forms
         rewind($output);
         $csvContent = stream_get_contents($output);
         fclose($output);
