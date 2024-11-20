@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
-
+use Exception;
 class GameService
 {
     private $baseUrl;
@@ -18,7 +18,7 @@ class GameService
         $response = Http::get($this->baseUrl);
 
         if ($response->failed()) {
-            throw new \Exception('Error fetching products from API');
+            throw new Exception('Error fetching products from API');
         }
 
         return $response->json();

@@ -20,8 +20,6 @@ class CartController extends Controller
             'cartProducts' => $cartProducts,
         ];
 
-        //dd(session('cart_items'));
-
         return view('cart.index')->with('viewData', $viewData);
     }
 

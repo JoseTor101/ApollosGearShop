@@ -31,4 +31,5 @@ return [
     'admin_navigate' => 'Navegar',
     'view_order' => 'Ver Orden',
     'not_logged_in' => 'Tienes que haber iniciado sesión para continuar.',
+    'stock_msg' => 'Modificar stock',
 ];
