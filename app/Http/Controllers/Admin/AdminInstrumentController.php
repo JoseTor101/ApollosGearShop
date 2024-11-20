@@ -5,16 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Instrument;
 use App\Services\ImageService;
-use App\Util\InstrumentUtils;
 use App\Util\Arrays;
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Str;
 use Illuminate\View\View;
-use Exception;
-
 
 // example created with the Lesson model
 // further implementation requires all models
@@ -27,7 +22,7 @@ class AdminInstrumentController extends Controller
     {
         $this->imageService = $imageService;
     }
-    
+
     public function create(): View
     {
         $viewData = [
@@ -50,7 +45,6 @@ class AdminInstrumentController extends Controller
         return redirect()->route('admin.index')->with('message', $viewData['message']);
     }
 
-
     public function delete(int $id): RedirectResponse
     {
         try {
@@ -63,6 +57,4 @@ class AdminInstrumentController extends Controller
 
         return redirect()->route('admin.index')->with('message', $viewData['message']);
     }
-
-   
 }

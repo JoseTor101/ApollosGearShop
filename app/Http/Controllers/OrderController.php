@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Interfaces\DocumentGeneratorInterface;
-use App\Services\PdfGeneratorService;
-use App\Services\CsvGeneratorService;
 use App\Models\Order;
+use App\Services\CsvGeneratorService;
+use App\Services\PdfGeneratorService;
 use App\Util\OrderUtils;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,6 +15,7 @@ use InvalidArgumentException;
 class OrderController extends Controller
 {
     private $pdfGenerator;
+
     private $csvGenerator;
 
     public function __construct()
@@ -23,6 +23,7 @@ class OrderController extends Controller
         $this->pdfGenerator = app(PdfGeneratorService::class);
         $this->csvGenerator = app(CsvGeneratorService::class);
     }
+
     public function generateDocument(int $id, string $type)
     {
         $order = Order::with('itemInOrders')->findOrFail($id);
@@ -48,6 +49,7 @@ class OrderController extends Controller
             'Content-Disposition' => "attachment; filename=\"order_{$order->id}.{$extension}\"",
         ]);
     }
+
     public function index(Request $request): View
     {
         $user = auth()->user();
