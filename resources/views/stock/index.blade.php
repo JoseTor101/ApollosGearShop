@@ -22,12 +22,12 @@
                     {{-- 
                         <img src="{{ $stock->instrument->getImage() }}" class="card-img-top img-card" alt="Instrument Image">
                     --}}
-                    <img src="{{ asset('storage/' . $stock->instrument->getImage()) }}" class="card-img-top img-card" alt="Instrument Image">
+                    <img src="{{ asset('storage/' . $stock->getInstrument()->getImage()) }}" class="card-img-top img-card" alt="Instrument Image">
                 </div>
 
                 <div class="card-body d-flex flex-column flex-grow-1">
                     <!-- Instrument Name -->
-                    <h5 class="card-title">{{ $stock->instrument ? $stock->instrument->getName() : __('messages.unknown_instrument') }}</h5>
+                    <h5 class="card-title">{{ $stock->getInstrument() ? $stock->getInstrument()->getName() : __('messages.unknown_instrument') }}</h5>
                     
                     <!-- Stock Details -->
                     <p class="card-text">

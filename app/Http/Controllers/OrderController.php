@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Services\CsvGeneratorService;
+use App\Services\PdfGeneratorService;
 use App\Util\OrderUtils;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -12,11 +14,50 @@ use InvalidArgumentException;
 
 class OrderController extends Controller
 {
+    private $pdfGenerator;
+
+    private $csvGenerator;
+
+    public function __construct()
+    {
+        $this->pdfGenerator = app(PdfGeneratorService::class);
+        $this->csvGenerator = app(CsvGeneratorService::class);
+    }
+
+    public function generateDocument(int $id, string $type)
+    {
+        // Cargar la orden con los ítems relacionados
+        $order = Order::with('itemInOrders')->findOrFail($id);
+
+        $data = ['order' => $order];
+
+        if ($type === 'pdf') {
+            $generator = $this->pdfGenerator;
+            $contentType = 'application/pdf';
+            $extension = 'pdf';
+        } elseif ($type === 'csv') {
+            $generator = $this->csvGenerator;
+            $contentType = 'text/csv';
+            $extension = 'csv';
+        } else {
+            abort(400, 'Invalid document type');
+        }
+
+        // Generar el contenido del documento
+        $content = $generator->generate('order.document', $data);
+
+        // Retornar la respuesta con el archivo generado
+        return response($content, 200, [
+            'Content-Type' => $contentType,
+            'Content-Disposition' => "attachment; filename=\"order_{$order->id}.{$extension}\"",
+        ]);
+    }
+
     public function index(Request $request): View
     {
         $user = auth()->user();
 
-        if (!$user) {
+        if (! $user) {
             return redirect()->route('login');
         }
 
@@ -44,7 +85,7 @@ class OrderController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        // Decode cart items
+
         $cartItems = json_decode($request->input('cart_items'), true) ?? $cartItems;
 
         try {
@@ -63,26 +104,21 @@ class OrderController extends Controller
 
         $request->session()->forget('cart_items');
 
-        // return redirect()->route('order.show')->with('message', 'Checkout successful! Your order total is $'.number_format($total / 100, 2));
         return redirect()->route('order.show', ['id' => $order->id])
-        ->with('message', 'Checkout successful! Your order total is $' . number_format($total / 100, 2));
+            ->with('message', 'Checkout successful! Your order total is $'.number_format($total / 100, 2));
     }
 
     public function show(int $id): View
     {
         $user = auth()->user();
 
-        if (!$user) {
+        if (! $user) {
             return redirect()->route('login');
         }
 
         $order = Order::with('itemInOrders')->where('id', $id)->where('user_id', $user->getId())->firstOrFail();
 
         $items = $order->getItemInOrder()->get();
-
-        foreach ($items as $item) {
-            $item->price = $item->getPrice() * $item->getQuantity();
-        }
 
         $viewData = [
             'title' => 'Order Details',

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         // Verificar si la tabla 'lessons' no existe antes de crearla
-        if (!Schema::hasTable('lessons')) {
+        if (! Schema::hasTable('lessons')) {
             Schema::create('lessons', function (Blueprint $table) {
                 $table->id();
                 $table->string('name');
