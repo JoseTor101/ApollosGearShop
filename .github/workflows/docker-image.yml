@@ -20,6 +20,14 @@ jobs:
         DOCKER_PASS: ${{secrets.DOCKERHUB_PASSWORD}}
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASS
+
+    - name: Set environment variables for Docker
+      run: |
+        echo "${{ secrets.MY_ENV_FILE }}" > .env
+
+    - name: Set up GCP Service Account key
+      run: echo "${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}" > storage/keys/gcp-service-account.json
+
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag josetor101/apollosgearshop:latest
       
